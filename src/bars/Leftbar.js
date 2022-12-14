@@ -3,7 +3,7 @@ import Drawer from '@material-ui/core/Drawer';
 import { LeftbarStyle } from './LeftbarStyle';
 import Hidden from '@material-ui/core/Hidden';
 
-function Leftbar({isMobile}) {
+function Leftbar({isMobile, funcSetIsMobile}) {
     const classes = LeftbarStyle();
     return (
         <div>
@@ -20,7 +20,9 @@ function Leftbar({isMobile}) {
                         variant='temporary'
                         open = {isMobile}
                         anchor='left'
-                        classes={{paper: classes.drawerPaper}}>
+                        classes={{paper: classes.drawerPaper}}
+                        onClick={funcSetIsMobile}
+                >
                 </Drawer>
             </nav>
         </div>

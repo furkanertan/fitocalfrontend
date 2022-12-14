@@ -1,11 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
 import Home from './pages/Home';
 import Bmi from './pages/Bmi';
 import IdealWeight from './pages/IdealWeight';
 import DailyCalorie from './pages/DailyCalorie';
 import FatBodyPercentage from './pages/FatBodyPercentage';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './layout/Layout';
 
 function App() {

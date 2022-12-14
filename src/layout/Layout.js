@@ -12,8 +12,8 @@ function Layout({children}) {
     };
     return (
         <div className={classes.root}>
-            <Leftbar isMobile = {isMobile}/>
-            <Topbar />
+            <Leftbar isMobile = {isMobile} funcSetIsMobile = {funcSetIsMobile}/>
+            <Topbar funcSetIsMobile = {funcSetIsMobile}/>
             <main>
                 <div className={classes.topbarWidth}/>
                 {children}
