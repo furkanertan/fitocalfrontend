@@ -14,11 +14,11 @@ function App() {
       <Router>
         <Layout>
           <Routes>
-            <Route exact path='/' render={() => <Home />} />
-            <Route path='/bmi' render={() => <Bmi />} />
-            <Route path='/ideal-weight' element={IdealWeight} />
-            <Route path='/daily-calorie' element={DailyCalorie} />
-            <Route path='/fat-body-percentage' element={FatBodyPercentage} />
+            <Route exact path='/' element={<Home/>} />
+            <Route exact path='/bmi' element={<Bmi/>} />
+            <Route exact path='/ideal-weight' element={<IdealWeight/>} />
+            <Route exact path='/daily-calorie' element={<DailyCalorie/>} />
+            <Route exact path='/fat-body-percentage' element={<FatBodyPercentage/>} />
         </Routes>
         </Layout>
       </Router>
