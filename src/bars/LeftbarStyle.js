@@ -9,6 +9,6 @@ export const LeftbarStyle = makeStyles((theme) => ({
     drawerPaper: {
         width: '200px',
         color: 'white',
-        backgroundColor: '#00695c'
+        backgroundColor: '#00095c'
     }
 }));
