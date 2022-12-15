@@ -8,8 +8,8 @@ export const TopbarStyle = makeStyles((theme) => ({
         backgroundColor: '#00695c'
     },
     topbarLogo: {
-        width: '80px',
-        height: '50px'
+        width: '150px',
+        height: '70px'
     },
     topbarContent: {
         color: 'white',

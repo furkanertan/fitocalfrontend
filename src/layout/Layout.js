@@ -6,7 +6,7 @@ import Topbar from '../bars/Topbar';
 
 function Layout({children}) {
     const classes = LayoutStyle();
-    const [isMobile, setIsMobile] = React.useState(true);
+    const [isMobile, setIsMobile] = React.useState(false);
     const funcSetIsMobile = () => {
         setIsMobile(!isMobile);
     };
