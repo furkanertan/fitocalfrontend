@@ -7,18 +7,63 @@ import {
 } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import CalculateIcon from '@mui/icons-material/Calculate';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import axios from "axios";
 import React from 'react';
+import { useState } from "react";
 
 function Bmi() {
+  const [isTableVisible, setIsTableVisible] = useState(false);
+  const toggleTableVisibility = (isClearOrCalculate) => {
+    if (isClearOrCalculate === 'clear') {
+      setIsTableVisible(false);
+    } else {
+      setIsTableVisible(true);
+    }
+  };
+  const clearAllFields = () => {
+    setHeight('');
+    setWeight('');
+
+  }
+  const calculateButtonFunction = () => {
+    if(height === '' || weight === ''){
+      alert("Please enter all fields");
+      return;
+    }
+    //show table
+    toggleTableVisibility('calculate');
+    //call api
+    getBmi();
+  }
+  const clearButtonFunction = () => {
+    //hide table
+    toggleTableVisibility('clear');
+    //clear text fields
+    clearAllFields();
+  }
   const [bmi, setBmi] = React.useState('');
+  const [bmiCategory, setBmiCategory] = React.useState('');
+  const [resHeight, setResHeight] = React.useState('');
+  const [resWeight, setResWeight] = React.useState('');
+  const [height, setHeight] = React.useState('');
+  const [weight, setWeight] = React.useState('');
   const getBmi = () => {
     axios.get("http://localhost:8080/bmi/getBmi", {
-      params: { height: 190, weight: 55 }
+      params: { height: height, weight: weight }
     })
       .then((response) => {
         console.log(response);
-        setBmi(response.data.bmi);
+        setBmi(response.data.bmi)
+        setBmiCategory(response.data.bmiCategory)
+        setResHeight(response.data.height)
+        setResWeight(response.data.weight)
       })
       .catch((error) => {
         console.log(error);
@@ -33,12 +78,13 @@ function Bmi() {
             label='Enter Height'
             id='outlined-start-adornment'
             sx={{ m: 1, width: "25ch" }}
+            onChange={(e) => setHeight(e.target.value)}
             type='number'
             InputProps={{
               inputProps: { min: 0, max: 1000 },
-              startAdornment: (
-                <InputAdornment position='start'>cm</InputAdornment>
-              ),
+              endAdornment: (
+                <InputAdornment position='end'>cm</InputAdornment>
+              )
             }}
           />
         </Grid>
@@ -48,26 +94,50 @@ function Bmi() {
             id='outlined-start-adornment'
             sx={{ m: 1, width: "25ch" }}
             type='number'
+            onChange={(e) => setWeight(e.target.value)}
             InputProps={{
               inputProps: { min: 0, max: 1000 },
-              startAdornment: (
-                <InputAdornment position='start'>kg</InputAdornment>
-              ),
+              endAdornment: (
+                <InputAdornment position='end'>kg</InputAdornment>
+              )
             }}
           />
         </Grid>
       </Grid>
       <Grid item xs={12} sm={6}>
-        <Button variant="outlined" startIcon={<DeleteIcon />}>
+        <Button variant="outlined" onClick={clearButtonFunction} startIcon={<DeleteIcon />}>
           Clear
         </Button>
       </Grid>
       <Grid item xs={12} sm={6}>
-        <Button variant="contained" onClick={getBmi} startIcon={<CalculateIcon />}>
+        <Button variant="contained" onClick={calculateButtonFunction} startIcon={<CalculateIcon />}>
           Calculate
         </Button>
       </Grid>
-      {bmi && <h1>{bmi}</h1> }
+      {isTableVisible &&       
+      <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Height (cm)</TableCell>
+            <TableCell align="right">Weight&nbsp;(kg)</TableCell>
+            <TableCell align="right">Bmi</TableCell>
+            <TableCell align="right">Bmi Category</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+            <TableRow
+              key={resHeight}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell align="right">{resHeight}</TableCell>
+              <TableCell align="right">{resWeight}</TableCell>
+              <TableCell align="right">{bmi}</TableCell>
+              <TableCell align="right">{bmiCategory}</TableCell>
+            </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer> }
     </Box>
   );
 }
