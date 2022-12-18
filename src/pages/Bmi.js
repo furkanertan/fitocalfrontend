@@ -72,12 +72,13 @@ function Bmi() {
 
   return (
     <Box sx={{ flexGrow: 1 }} component={"form"}>
-      <Grid container spacing={1}>
-      <Grid item xs={12} sm={6}>
+      <Grid container spacing={1} direction="column">
+      <Grid item xs={6} sm={1}>
           <TextField
             label='Enter Height'
             id='outlined-start-adornment'
             sx={{ m: 1, width: "25ch" }}
+            value={height}
             onChange={(e) => setHeight(e.target.value)}
             type='number'
             InputProps={{
@@ -87,14 +88,15 @@ function Bmi() {
               )
             }}
           />
-        </Grid>
-        <Grid item xs={12} sm={6}>
+          </Grid>
+          <Grid item xs={6} sm={1}>
           <TextField
             label='Enter Weight'
             id='outlined-start-adornment'
             sx={{ m: 1, width: "25ch" }}
             type='number'
             onChange={(e) => setWeight(e.target.value)}
+            value={weight}
             InputProps={{
               inputProps: { min: 0, max: 1000 },
               endAdornment: (
@@ -103,16 +105,18 @@ function Bmi() {
             }}
           />
         </Grid>
-      </Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid container spacing={1} direction="row">
+      <Grid item xs={6} sm={1}>
         <Button variant="outlined" onClick={clearButtonFunction} startIcon={<DeleteIcon />}>
           Clear
         </Button>
       </Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={6} sm={1}>
         <Button variant="contained" onClick={calculateButtonFunction} startIcon={<CalculateIcon />}>
           Calculate
         </Button>
+      </Grid>
+      </Grid>
       </Grid>
       {isTableVisible &&       
       <TableContainer component={Paper}>
