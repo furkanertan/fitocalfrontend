@@ -1,5 +1,4 @@
 import './App.css';
-import Home from './pages/Home';
 import Bmi from './pages/Bmi';
 import IdealWeight from './pages/IdealWeight';
 import DailyCalorie from './pages/DailyCalorie';
@@ -13,7 +12,6 @@ function App() {
       <Router>
         <Layout>
           <Routes>
-            <Route exact path='/' element={<Home/>} />
             <Route exact path='/bmi' element={<Bmi/>} />
             <Route exact path='/ideal-weight' element={<IdealWeight/>} />
             <Route exact path='/daily-calorie' element={<DailyCalorie/>} />
