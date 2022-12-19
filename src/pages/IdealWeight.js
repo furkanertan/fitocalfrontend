@@ -11,15 +11,82 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import React from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { useState } from "react";
+import axios from "axios";
 
 function IdealWeight() {
-  const [gender, setGender] = React.useState('');
+  const [isTableVisible, setIsTableVisible] = useState(false);
   const [age, setAge] = React.useState('');
   const [height, setHeight] = React.useState('');
+  const [gender, setGender] = React.useState('');
+  const [resIdealWeight, setResIdealWeight] = React.useState('');
+  const [resFormula, setResFormula] = React.useState('');
 
-  const handleChange = (event) => {
+  const toggleTableVisibility = (isClearOrCalculate) => {
+    if (isClearOrCalculate === 'clear') {
+      setIsTableVisible(false);
+    } else {
+      setIsTableVisible(true);
+    }
+  };
+
+  const clearAllFields = () => {
+    setAge('');
+    setHeight('');
+    setGender('');
+  }
+
+  const reqData = {
+    age: age,
+    height: height,
+    gender: (gender === 'Male' ? 'M' : 'F'),
+    formula: 'R'
+  }
+
+  const calculateIdealWeight = () => { 
+    axios.get('http://localhost:8080/idealWeight/calculateIdealWeight', {data : reqData})
+        .then(response => {
+            console.log(response.data);
+            setAge(response.data.age)
+            setHeight(response.data.height)
+            setGender(response.data.gender)
+            setResIdealWeight(response.data.idealWeight)
+            setResFormula(response.data.formula)
+        })
+    .catch(error => {
+        console.log(error);
+    });
+  };
+
+  const handleGenderChange = (event) => {
     setGender(event.target.value);
   };
+
+  const calculateButtonFunction = () => {
+    if(age === '' || height === '' || gender === ''){
+      alert("Please enter all required fields!");
+      return;
+    }
+    //show table
+    toggleTableVisibility('calculate');
+    //call api
+    calculateIdealWeight();
+  }
+
+  const clearButtonFunction = () => {
+    //hide table
+    toggleTableVisibility('clear');
+    //clear text fields
+    clearAllFields();
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }} component={"form"}>
       <Grid container spacing={1} direction="column">
@@ -62,27 +129,51 @@ function IdealWeight() {
           id="demo-simple-select-helper"
           value={gender}
           label="Gender"
-          onChange={handleChange}
+          onChange={handleGenderChange}
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
           <MenuItem value={10}>Male</MenuItem>
           <MenuItem value={20}>Female</MenuItem>
         </Select>
         </Grid>
-      
+        <Grid container spacing={1} direction="row">
       <Grid item xs={12} sm={6}>
-        <Button variant="outlined" startIcon={<DeleteIcon />}>
+        <Button variant="outlined" onClick={clearButtonFunction} startIcon={<DeleteIcon />}>
           Clear
         </Button>
       </Grid>
       <Grid item xs={12} sm={6}>
-        <Button variant="contained" startIcon={<CalculateIcon />}>
+        <Button variant="contained" onClick={calculateButtonFunction} startIcon={<CalculateIcon />}>
           Calculate
         </Button>
       </Grid>
     </Grid>
+    </Grid>
+    {isTableVisible &&       
+      <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Age (cm)</TableCell>
+            <TableCell align="right">Height&nbsp;(cm)</TableCell>
+            <TableCell align="right">Gender</TableCell>
+            <TableCell align="right">Ideal Weight</TableCell>
+            <TableCell align="right">Formula</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+            <TableRow
+              key={age}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell align="right">{age}</TableCell>
+              <TableCell align="right">{height}</TableCell>
+              <TableCell align="right">{gender}</TableCell>
+              <TableCell align="right">{resIdealWeight}</TableCell>
+              <TableCell align="right">{resFormula}</TableCell>
+            </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer> }
     </Box>
   );
 }

@@ -2,7 +2,7 @@ import React from "react";
 import BmiIcon from "@mui/icons-material/Calculate";
 import IdealWeightIcon from "@mui/icons-material/Scale";
 import DailyCalorieIcon from "@mui/icons-material/Fastfood";
-import FatBodyPercentageIcon from "@mui/icons-material/MonitorHeart";
+import BodyFatPercentageIcon from "@mui/icons-material/MonitorHeart";
 
 export const Constants = {
   leftBarData: [
@@ -26,9 +26,9 @@ export const Constants = {
     },
     {
       id: 5,
-      title: "Fat Body Percentage",
-      path: "/fat-body-percentage",
-      icon: <FatBodyPercentageIcon />,
+      title: "Body Fat Percentage",
+      path: "/body-fat-percentage",
+      icon: <BodyFatPercentageIcon />,
     },
   ],
 };
