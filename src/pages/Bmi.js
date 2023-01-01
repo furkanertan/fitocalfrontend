@@ -54,6 +54,7 @@ function Bmi() {
   const [resWeight, setResWeight] = React.useState('');
   const [height, setHeight] = React.useState('');
   const [weight, setWeight] = React.useState('');
+  const [resultMessage, setResultMessage] = React.useState('');
   const getBmi = () => {
     axios.get("http://localhost:8080/bmi/getBmi", {
       params: { height: height, weight: weight }
@@ -64,6 +65,7 @@ function Bmi() {
         setBmiCategory(response.data.bmiCategory)
         setResHeight(response.data.height)
         setResWeight(response.data.weight)
+        setResultMessage(response.data.resultMessage)
       })
       .catch((error) => {
         console.log(error);
@@ -118,6 +120,16 @@ function Bmi() {
       </Grid>
       </Grid>
       </Grid>
+     <br/>
+     {isTableVisible && 
+     <div>
+     <h3>Result: </h3>
+      <ul>
+        <li>Healthy BMI range: 18.5 - 25</li>
+        <li>{resultMessage}</li>
+      </ul>
+     </div>
+     }
       {isTableVisible &&       
       <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">

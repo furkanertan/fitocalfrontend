@@ -26,8 +26,7 @@ function IdealWeight() {
   const [age, setAge] = React.useState('');
   const [height, setHeight] = React.useState('');
   const [gender, setGender] = React.useState('');
-  const [resIdealWeight, setResIdealWeight] = React.useState('');
-  const [resFormula, setResFormula] = React.useState('');
+  const [result, setResult] = React.useState('');
 
   const toggleTableVisibility = (isClearOrCalculate) => {
     if (isClearOrCalculate === 'clear') {
@@ -43,22 +42,13 @@ function IdealWeight() {
     setGender('');
   }
 
-  const reqData = {
-    age: age,
-    height: height,
-    gender: (gender === 'Male' ? 'M' : 'F'),
-    formula: 'R'
-  }
-
   const calculateIdealWeight = () => { 
-    axios.get('http://localhost:8080/idealWeight/calculateIdealWeight', {data : reqData})
+    axios.get('http://localhost:8080/idealWeight/calculateIdealWeight', {
+      params: { age: age, height: height, gender: (gender === 'Male' ? 'M' : 'F') }
+        })
         .then(response => {
             console.log(response.data);
-            setAge(response.data.age)
-            setHeight(response.data.height)
-            setGender(response.data.gender)
-            setResIdealWeight(response.data.idealWeight)
-            setResFormula(response.data.formula)
+            setResult(response.data);
         })
     .catch(error => {
         console.log(error);
@@ -148,29 +138,25 @@ function IdealWeight() {
       </Grid>
     </Grid>
     </Grid>
-    {isTableVisible &&       
+    {isTableVisible &&   
       <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <TableCell>Age (cm)</TableCell>
-            <TableCell align="right">Height&nbsp;(cm)</TableCell>
-            <TableCell align="right">Gender</TableCell>
+            <TableCell>Formula</TableCell>
             <TableCell align="right">Ideal Weight</TableCell>
-            <TableCell align="right">Formula</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
+          {result.map((row) => (
             <TableRow
-              key={age}
+              key={row.idealWeight}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell align="right">{age}</TableCell>
-              <TableCell align="right">{height}</TableCell>
-              <TableCell align="right">{gender}</TableCell>
-              <TableCell align="right">{resIdealWeight}</TableCell>
-              <TableCell align="right">{resFormula}</TableCell>
+              <TableCell align="right">{row.formula}</TableCell>
+              <TableCell align="right">{row.idealWeight}</TableCell>
             </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer> }
