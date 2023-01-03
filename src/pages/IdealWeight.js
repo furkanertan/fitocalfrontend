@@ -8,6 +8,7 @@ import {
   Select,
   MenuItem,
   FormControl,
+  Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CalculateIcon from "@mui/icons-material/Calculate";
@@ -94,6 +95,7 @@ function IdealWeight() {
   return (
     <Box sx={{ flexGrow: 1 }} component={"form"}>
       <Grid container spacing={1} direction="column">
+        <Typography variant="h5">Calculate Ideal Weight</Typography>
         <Grid item xs={6} sm={1}>
           <TextField
             label="Enter Age"

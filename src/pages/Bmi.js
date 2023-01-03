@@ -90,6 +90,7 @@ function Bmi() {
   return (
     <Box sx={{ flexGrow: 1 }} component={"form"}>
       <Grid container spacing={1} direction="column">
+        <Typography variant="h5">Calculate Body Mass Index (BMI)</Typography>
         <Grid item xs={6} sm={1}>
           <TextField
             label="Enter Height"

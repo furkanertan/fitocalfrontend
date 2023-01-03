@@ -8,6 +8,7 @@ import {
   Select,
   MenuItem,
   FormControl,
+  Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CalculateIcon from "@mui/icons-material/Calculate";
@@ -118,6 +119,7 @@ function DailyCalorie() {
   return (
     <Box sx={{ flexGrow: 1 }} component={"form"}>
       <Grid container spacing={1} direction="column">
+        <Typography variant="h5">Calculate Daily Required Calorie</Typography>
         <Grid item xs={6} sm={1}>
           <TextField
             label="Enter Age"

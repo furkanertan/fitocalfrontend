@@ -5,6 +5,7 @@ import {
   Select,
   MenuItem,
   FormControl,
+  Typography,
 } from "@mui/material";
 import React from "react";
 import { useState } from "react";
@@ -60,6 +61,8 @@ function RecommendedExercises() {
   return (
     <Box sx={{ flexGrow: 1 }} component={"form"}>
       <Grid container spacing={1} direction="column">
+        <Typography variant="h5">Get Recommended Exercises</Typography>
+        <br />
         <Grid item xs={6} sm={1}>
           <Box sx={{ minWidth: 120 }}>
             <FormControl sx={{ width: "22%" }}>
