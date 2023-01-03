@@ -7,6 +7,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  FormControl,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CalculateIcon from "@mui/icons-material/Calculate";
@@ -20,6 +21,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useState } from "react";
 import axios from "axios";
+import swal from "sweetalert";
 
 function IdealWeight() {
   const [isTableVisible, setIsTableVisible] = useState(false);
@@ -65,13 +67,21 @@ function IdealWeight() {
 
   const calculateButtonFunction = () => {
     if (age === "" || height === "" || gender === "") {
-      alert("Please enter all required fields!");
+      errorAlert();
       return;
     }
     //show table
     toggleTableVisibility("calculate");
     //call api
     calculateIdealWeight();
+  };
+
+  const errorAlert = () => {
+    swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Please fill all required fields!",
+    });
   };
 
   const clearButtonFunction = () => {
@@ -88,7 +98,7 @@ function IdealWeight() {
           <TextField
             label="Enter Age"
             id="outlined-start-adornment"
-            sx={{ m: 1, width: "25ch" }}
+            sx={{ m: 1, width: "22%" }}
             value={age}
             onChange={(e) => setAge(e.target.value)}
             type="number"
@@ -102,7 +112,7 @@ function IdealWeight() {
           <TextField
             label="Enter Height"
             id="outlined-start-adornment"
-            sx={{ m: 1, width: "25ch" }}
+            sx={{ m: 1, width: "22%" }}
             value={height}
             onChange={(e) => setHeight(e.target.value)}
             type="number"
@@ -113,20 +123,23 @@ function IdealWeight() {
           />
         </Grid>
         <Grid item xs={6} sm={1}>
-          <InputLabel id="gender-select"></InputLabel>
-          <Select
-            labelId="gender-select"
-            id="gender-select"
-            value={"M"}
-            sx={{ m: 1, width: "25ch" }}
-            label="Gender"
-            onChange={handleGenderChange}
-          >
-            <MenuItem value={"M"}>Male</MenuItem>
-            <MenuItem value={"F"}>Female</MenuItem>
-          </Select>
+          <Box sx={{ minWidth: 120 }}>
+            <FormControl sx={{ width: "22%" }}>
+              <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={gender}
+                label="Gender"
+                onChange={handleGenderChange}
+              >
+                <MenuItem value={"Male"}>Male</MenuItem>
+                <MenuItem value={"Fenale"}>Female</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
         </Grid>
-
+        <br />
         <Grid container spacing={1} direction="row">
           <Grid
             item
@@ -136,6 +149,7 @@ function IdealWeight() {
             justifyContent={"flex-end"}
           >
             <Button
+              sx={{ width: "21%" }}
               variant="outlined"
               onClick={clearButtonFunction}
               startIcon={<DeleteIcon />}
@@ -151,6 +165,7 @@ function IdealWeight() {
             justifyContent={"flex-start"}
           >
             <Button
+              sx={{ width: "22%" }}
               variant="contained"
               onClick={calculateButtonFunction}
               startIcon={<CalculateIcon />}
@@ -162,7 +177,7 @@ function IdealWeight() {
       </Grid>
       {isTableVisible && (
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <Table sx={{ minWidth: 500 }} aria-label="customized table">
             <TableHead>
               <TableRow>
                 <TableCell>Formula</TableCell>
@@ -175,7 +190,7 @@ function IdealWeight() {
                   key={row.idealWeight}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell align="right">{row.formula}</TableCell>
+                  <TableCell>{row.formula}</TableCell>
                   <TableCell align="right">{row.idealWeight}</TableCell>
                 </TableRow>
               ))}

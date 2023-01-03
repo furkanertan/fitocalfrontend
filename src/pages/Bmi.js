@@ -5,10 +5,7 @@ import {
   Grid,
   Button,
   Typography,
-  ListSubheader,
 } from "@mui/material";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CalculateIcon from "@mui/icons-material/Calculate";
 import Table from "@mui/material/Table";
@@ -23,34 +20,8 @@ import React from "react";
 import { useState } from "react";
 
 function Bmi() {
+  const swal = require("sweetalert");
   const [isTableVisible, setIsTableVisible] = useState(false);
-  const toggleTableVisibility = (isClearOrCalculate) => {
-    if (isClearOrCalculate === "clear") {
-      setIsTableVisible(false);
-    } else {
-      setIsTableVisible(true);
-    }
-  };
-  const clearAllFields = () => {
-    setHeight("");
-    setWeight("");
-  };
-  const calculateButtonFunction = () => {
-    if (height === "" || weight === "") {
-      alert("Please enter all fields");
-      return;
-    }
-    //show table
-    toggleTableVisibility("calculate");
-    //call api
-    getBmi();
-  };
-  const clearButtonFunction = () => {
-    //hide table
-    toggleTableVisibility("clear");
-    //clear text fields
-    clearAllFields();
-  };
   const [bmi, setBmi] = React.useState("");
   const [bmiCategory, setBmiCategory] = React.useState("");
   const [resHeight, setResHeight] = React.useState("");
@@ -58,6 +29,46 @@ function Bmi() {
   const [height, setHeight] = React.useState("");
   const [weight, setWeight] = React.useState("");
   const [resultMessage, setResultMessage] = React.useState("");
+
+  const toggleTableVisibility = (isClearOrCalculate) => {
+    if (isClearOrCalculate === "clear") {
+      setIsTableVisible(false);
+    } else {
+      setIsTableVisible(true);
+    }
+  };
+
+  const clearAllFields = () => {
+    setHeight("");
+    setWeight("");
+  };
+
+  const calculateButtonFunction = () => {
+    if (height === "" || weight === "") {
+      errorAlert();
+      return;
+    }
+    //show table
+    toggleTableVisibility("calculate");
+    //call api
+    getBmi();
+  };
+
+  const clearButtonFunction = () => {
+    //hide table
+    toggleTableVisibility("clear");
+    //clear text fields
+    clearAllFields();
+  };
+
+  const errorAlert = () => {
+    swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Please fill all required fields!",
+    });
+  };
+
   const getBmi = () => {
     axios
       .get("http://localhost:8080/bmi/getBmi", {
@@ -83,7 +94,7 @@ function Bmi() {
           <TextField
             label="Enter Height"
             id="outlined-start-adornment"
-            sx={{ m: 1, width: "25ch" }}
+            sx={{ m: 1, width: "22%" }}
             value={height}
             onChange={(e) => setHeight(e.target.value)}
             type="number"
@@ -97,7 +108,7 @@ function Bmi() {
           <TextField
             label="Enter Weight"
             id="outlined-start-adornment"
-            sx={{ m: 1, width: "25ch" }}
+            sx={{ m: 1, width: "22%" }}
             type="number"
             onChange={(e) => setWeight(e.target.value)}
             value={weight}
@@ -107,18 +118,17 @@ function Bmi() {
             }}
           />
         </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12} display={"flex"} justifyContent={"center"}>
+        <br />
+        <Grid container spacing={1} direction="row">
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            display={"flex"}
+            justifyContent={"flex-end"}
+          >
             <Button
-              variant="contained"
-              onClick={calculateButtonFunction}
-              startIcon={<CalculateIcon />}
-            >
-              Calculate
-            </Button>
-          </Grid>
-          <Grid item xs={12} display={"flex"} justifyContent={"center"}>
-            <Button
+              sx={{ width: "21%" }}
               variant="outlined"
               onClick={clearButtonFunction}
               startIcon={<DeleteIcon />}
@@ -126,23 +136,40 @@ function Bmi() {
               Clear
             </Button>
           </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            display={"flex"}
+            justifyContent={"flex-start"}
+          >
+            <Button
+              sx={{ width: "22%" }}
+              variant="contained"
+              onClick={calculateButtonFunction}
+              startIcon={<CalculateIcon />}
+            >
+              Calculate
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
-      <br />
       {isTableVisible && (
         <>
           <Typography display={"flex"} justifySelf={"flex-start"} variant="h5">
-            Result
+            Result:
           </Typography>
-          <Box display={"flex"} justifySelf={"flex-start"} variant="h5">
-            <Typography>Healthy BMI range: 18.5 - 25</Typography>
-            <Typography>{resultMessage}</Typography>
-          </Box>
+          <Typography display={"flex"} justifySelf={"flex-start"} variant="h6">
+            Healthy BMI range: 18.5 - 25
+          </Typography>
+          <Typography display={"flex"} justifySelf={"flex-start"} variant="h6">
+            {resultMessage}
+          </Typography>
         </>
       )}
       {isTableVisible && (
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <Table sx={{ minWidth: 500 }} aria-label="customized table">
             <TableHead>
               <TableRow>
                 <TableCell>Height (cm)</TableCell>
@@ -156,7 +183,7 @@ function Bmi() {
                 key={resHeight}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="right">{resHeight}</TableCell>
+                <TableCell>{resHeight}</TableCell>
                 <TableCell align="right">{resWeight}</TableCell>
                 <TableCell align="right">{bmi}</TableCell>
                 <TableCell align="right">{bmiCategory}</TableCell>
