@@ -80,7 +80,7 @@ function BodyFatPercentage() {
     height: height,
     weight: weight,
     age: age,
-    gender: gender === "Male" ? "M" : "F",
+    gender: gender,
   };
 
   const headers = {
@@ -160,8 +160,8 @@ function BodyFatPercentage() {
                 label="Gender"
                 onChange={handleGenderChange}
               >
-                <MenuItem value={"Male"}>Male</MenuItem>
-                <MenuItem value={"Fenale"}>Female</MenuItem>
+                <MenuItem value={"M"}>Male</MenuItem>
+                <MenuItem value={"F"}>Female</MenuItem>
               </Select>
             </FormControl>
           </Box>

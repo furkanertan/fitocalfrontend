@@ -50,7 +50,7 @@ function IdealWeight() {
         params: {
           age: age,
           height: height,
-          gender: gender === "Male" ? "M" : "F",
+          gender: gender,
         },
       })
       .then((response) => {
@@ -133,8 +133,8 @@ function IdealWeight() {
                 label="Gender"
                 onChange={handleGenderChange}
               >
-                <MenuItem value={"Male"}>Male</MenuItem>
-                <MenuItem value={"Fenale"}>Female</MenuItem>
+                <MenuItem value={"M"}>Male</MenuItem>
+                <MenuItem value={"F"}>Female</MenuItem>
               </Select>
             </FormControl>
           </Box>
