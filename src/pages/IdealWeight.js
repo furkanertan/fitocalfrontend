@@ -193,7 +193,9 @@ function IdealWeight() {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell>{row.formula}</TableCell>
-                  <TableCell align="right">{row.idealWeight}</TableCell>
+                  <TableCell align="right">
+                    {Number.parseFloat(row.idealWeight).toFixed(1)}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

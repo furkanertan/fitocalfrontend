@@ -186,7 +186,9 @@ function Bmi() {
               >
                 <TableCell>{resHeight}</TableCell>
                 <TableCell align="right">{resWeight}</TableCell>
-                <TableCell align="right">{bmi}</TableCell>
+                <TableCell align="right">
+                  {Number.parseFloat(bmi).toFixed(1)}
+                </TableCell>
                 <TableCell align="right">{bmiCategory}</TableCell>
               </TableRow>
             </TableBody>
