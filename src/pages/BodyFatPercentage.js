@@ -86,7 +86,8 @@ function BodyFatPercentage() {
 
   const headers = {
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+    "Access-Control-Allow-Headers":
+      "Origin, X-Requested-With, Content-Type, Accept",
   };
 
   const calculateBodyFatPercentage = () => {
@@ -217,20 +218,24 @@ function BodyFatPercentage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {Object.values(result).map((row) => (
-                <TableRow
-                  key={row.type}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell>{row.type}</TableCell>
-                  <TableCell align="right">
-                    {row.bodyFatPercentageRate}
-                  </TableCell>
-                  <TableCell align="right">{row.bodyFatMass}</TableCell>
-                  <TableCell align="right">{row.leanBodyMass}</TableCell>
-                  <TableCell align="right">{row.bmi}</TableCell>
-                </TableRow>
-              ))}
+              <TableRow
+                key={result?.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell>{result?.type}</TableCell>
+                <TableCell align="right">
+                  {Number.parseFloat(result?.bodyFatPercentageRate).toFixed(2)}
+                </TableCell>
+                <TableCell align="right">
+                  {Number.parseFloat(result?.bodyFatMass).toFixed(2)}
+                </TableCell>
+                <TableCell align="right">
+                  {Number.parseFloat(result?.leanBodyMass).toFixed(2)}
+                </TableCell>
+                <TableCell align="right">
+                  {Number.parseFloat(result?.bmi).toFixed(2)}
+                </TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>

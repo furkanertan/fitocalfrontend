@@ -25,7 +25,7 @@ function DailyCalorie() {
   const [height, setHeight] = React.useState("");
   const [weight, setWeight] = React.useState("");
   const [activityLevel, setActivityLevel] = React.useState("");
-  const [result, setResult] = React.useState("");
+  const [result, setResult] = React.useState([]);
 
   const toggleTableVisibility = (isClearOrCalculate) => {
     if (isClearOrCalculate === "clear") {
@@ -89,11 +89,13 @@ function DailyCalorie() {
     age: age,
     gender: gender,
     activity: activityLevel,
+    formula: "Mifflin",
   };
 
   const headers = {
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+    "Access-Control-Allow-Headers":
+      "Origin, X-Requested-With, Content-Type, Accept",
   };
 
   const generateBodyReport = () => {
@@ -111,33 +113,34 @@ function DailyCalorie() {
   };
 
   const columns = [
-    { field: "age", headerName: "Age", width: 150 },
-    { field: "gender", headerName: "Gender", width: 150 },
+    { field: "age", headerName: "Age", width: 50 },
+    { field: "gender", headerName: "Gender", width: 100 },
     { field: "height", headerName: "Height (cm)", width: 150 },
     { field: "weight", headerName: "Weight (kg)", width: 150 },
-    { field: "bmi", headerName: "BMI", width: 150 },
+    { field: "bmi", headerName: "BMI", width: 100 },
     { field: "bodyType", headerName: "Body Type", width: 150 },
-    { field: "idealWeight", headerName: "Body Type", width: 150 },
+    { field: "idealWeight", headerName: "Ideal Weight", width: 150 },
     {
       field: "bodyFatPercentageRate",
       headerName: "Body Fat Percentage Rate",
-      width: 150,
+      width: 200,
     },
     { field: "bodyFatMass", headerName: "Body Fat Mass", width: 150 },
+    { field: "leanBodyMass", headerName: "Lean Fat Mass", width: 150 },
     {
       field: "calorieToLoseWeight",
       headerName: "Calorie (Lose Weight)",
-      width: 150,
+      width: 175,
     },
     {
       field: "calorieToStaySame",
       headerName: "Calorie (Maintain)",
-      width: 150,
+      width: 175,
     },
     {
       field: "calorieToGainWeight",
       headerName: "Calorie (Gain Weight)",
-      width: 150,
+      width: 175,
     },
   ];
 
@@ -278,14 +281,22 @@ function DailyCalorie() {
       </Grid>
       <br />
       {isTableVisible && (
-        <div style={{ height: 300, width: "100%" }}>
-          <DataGrid
-            rows={result}
-            columns={columns}
-            pageSize={12}
-            components={{ Toolbar: GridToolbar }}
-          />
-        </div>
+        <Grid item xs={12} sm={1} display={"flex"} justifyContent={"center"}>
+          <Box
+            component={"div"}
+            sx={{
+              height: 511,
+              width: "100%",
+            }}
+          >
+            <DataGrid
+              rows={result}
+              columns={columns}
+              pageSize={7}
+              components={{ Toolbar: GridToolbar }}
+            />
+          </Box>
+        </Grid>
       )}
     </Box>
   );

@@ -31,7 +31,8 @@ function DailyCalorie() {
   const [height, setHeight] = React.useState("");
   const [weight, setWeight] = React.useState("");
   const [activityLevel, setActivityLevel] = React.useState("");
-  const [result, setResult] = React.useState("");
+  const [result, setResult] = React.useState([]);
+  const customId = React.useId();
 
   const toggleTableVisibility = (isClearOrCalculate) => {
     if (isClearOrCalculate === "clear") {
@@ -95,11 +96,13 @@ function DailyCalorie() {
     age: age,
     gender: gender,
     activity: activityLevel,
+    formula: "Mifflin",
   };
 
   const headers = {
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+    "Access-Control-Allow-Headers":
+      "Origin, X-Requested-With, Content-Type, Accept",
   };
 
   const calculateDailyCalorie = () => {
@@ -262,26 +265,23 @@ function DailyCalorie() {
                 <TableCell align="right">Weight Loss</TableCell>
                 <TableCell align="right">Extreme Weight Loss</TableCell>
                 <TableCell align="right">Mild Weight Gain</TableCell>
-                <TableCell align="right">Mild Weight Gain</TableCell>
                 <TableCell align="right">Weight Gain</TableCell>
                 <TableCell align="right">Fast Weight Gain</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {Object.values(result).map((row) => (
-                <TableRow
-                  key={row.maintainWeight}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell>{row.maintainWeight}</TableCell>
-                  <TableCell align="right">{row.mildWeightLoss}</TableCell>
-                  <TableCell align="right">{row.weightLoss}</TableCell>
-                  <TableCell align="right">{row.extremeWeightLoss}</TableCell>
-                  <TableCell align="right">{row.mildWeightGain}</TableCell>
-                  <TableCell align="right">{row.weightGain}</TableCell>
-                  <TableCell align="right">{row.fastWeightGain}</TableCell>
-                </TableRow>
-              ))}
+              <TableRow
+                key={customId}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell>{result?.maintainWeight}</TableCell>
+                <TableCell align="right">{result?.mildWeightLoss}</TableCell>
+                <TableCell align="right">{result?.weightLoss}</TableCell>
+                <TableCell align="right">{result?.extremeWeightLoss}</TableCell>
+                <TableCell align="right">{result?.mildWeightGain}</TableCell>
+                <TableCell align="right">{result?.weightGain}</TableCell>
+                <TableCell align="right">{result?.fastWeightGain}</TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
