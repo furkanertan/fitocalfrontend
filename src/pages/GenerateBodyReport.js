@@ -13,16 +13,10 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import CalculateIcon from "@mui/icons-material/Calculate";
 import React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import { useState } from "react";
 import axios from "axios";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 
 function DailyCalorie() {
   const [isTableVisible, setIsTableVisible] = useState(false);
@@ -82,7 +76,7 @@ function DailyCalorie() {
   };
 
   const errorAlert = () => {
-    swal.fire({
+    Swal.fire({
       icon: "error",
       title: "Oops...",
       text: "Please fill all required fields!",
@@ -115,6 +109,37 @@ function DailyCalorie() {
         console.log(error);
       });
   };
+
+  const columns = [
+    { field: "age", headerName: "Age", width: 150 },
+    { field: "gender", headerName: "Gender", width: 150 },
+    { field: "height", headerName: "Height (cm)", width: 150 },
+    { field: "weight", headerName: "Weight (kg)", width: 150 },
+    { field: "bmi", headerName: "BMI", width: 150 },
+    { field: "bodyType", headerName: "Body Type", width: 150 },
+    { field: "idealWeight", headerName: "Body Type", width: 150 },
+    {
+      field: "bodyFatPercentageRate",
+      headerName: "Body Fat Percentage Rate",
+      width: 150,
+    },
+    { field: "bodyFatMass", headerName: "Body Fat Mass", width: 150 },
+    {
+      field: "calorieToLoseWeight",
+      headerName: "Calorie (Lose Weight)",
+      width: 150,
+    },
+    {
+      field: "calorieToStaySame",
+      headerName: "Calorie (Maintain)",
+      width: 150,
+    },
+    {
+      field: "calorieToGainWeight",
+      headerName: "Calorie (Gain Weight)",
+      width: 150,
+    },
+  ];
 
   return (
     <Box sx={{ flexGrow: 1 }} component={"form"}>
@@ -253,38 +278,14 @@ function DailyCalorie() {
       </Grid>
       <br />
       {isTableVisible && (
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 500 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Maintain Weight</TableCell>
-                <TableCell align="right">Mild Weight Loss</TableCell>
-                <TableCell align="right">Weight Loss</TableCell>
-                <TableCell align="right">Extreme Weight Loss</TableCell>
-                <TableCell align="right">Mild Weight Gain</TableCell>
-                <TableCell align="right">Mild Weight Gain</TableCell>
-                <TableCell align="right">Weight Gain</TableCell>
-                <TableCell align="right">Fast Weight Gain</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {Object.values(result).map((row) => (
-                <TableRow
-                  key={row.maintainWeight}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell>{row.maintainWeight}</TableCell>
-                  <TableCell align="right">{row.mildWeightLoss}</TableCell>
-                  <TableCell align="right">{row.weightLoss}</TableCell>
-                  <TableCell align="right">{row.extremeWeightLoss}</TableCell>
-                  <TableCell align="right">{row.mildWeightGain}</TableCell>
-                  <TableCell align="right">{row.weightGain}</TableCell>
-                  <TableCell align="right">{row.fastWeightGain}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <div style={{ height: 300, width: "100%" }}>
+          <DataGrid
+            rows={result}
+            columns={columns}
+            pageSize={12}
+            components={{ Toolbar: GridToolbar }}
+          />
+        </div>
       )}
     </Box>
   );

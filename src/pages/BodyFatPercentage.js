@@ -22,7 +22,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useState } from "react";
 import axios from "axios";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 
 function BodyFatPercentage() {
   const [isTableVisible, setIsTableVisible] = useState(false);
@@ -70,7 +70,7 @@ function BodyFatPercentage() {
   };
 
   const errorAlert = () => {
-    swal.fire({
+    Swal.fire({
       icon: "error",
       title: "Oops...",
       text: "Please fill all required fields!",

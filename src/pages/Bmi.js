@@ -18,9 +18,9 @@ import Paper from "@mui/material/Paper";
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 function Bmi() {
-  const swal = require("sweetalert");
   const [isTableVisible, setIsTableVisible] = useState(false);
   const [bmi, setBmi] = React.useState("");
   const [bmiCategory, setBmiCategory] = React.useState("");
@@ -62,7 +62,7 @@ function Bmi() {
   };
 
   const errorAlert = () => {
-    swal.fire({
+    Swal.fire({
       icon: "error",
       title: "Oops...",
       text: "Please fill all required fields!",
